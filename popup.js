@@ -8,13 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
   var currentPageDiv = document.getElementById('currentPageLink');
   var pageHasLink = false;
   var ul = document.createElement('ul');
-
+  var savedAlert = createSavedAlert();
 
   // Show if current page already has a quicklink
   chrome.tabs.getSelected(null, function(tab) {
     chrome.storage.sync.get(null, function(items) {
       for (var item in items) {
         if (items[item] === tab.url) {
+          input.setAttribute('placeholder', 'Edit QuickLink for this page');
           currentPageDiv.innerText = 'This page has a QuickLink: ' + item;
           // currentPageDiv.style.display = 'block';
           currentPageDiv.style.visibility = 'visibile';
@@ -54,25 +55,27 @@ document.addEventListener('DOMContentLoaded', function() {
           return;
         }
       }
-    });
-    // save this quicklink
-    chrome.tabs.getSelected(null, function(tab) {
-      if (pageHasLink) {
-        chrome.storage.sync.remove(pageHasLink, function() {
-          saveLink(quickLink, tab.url);
-        });
-      } else saveLink(quickLink, tab.url);
+      // save this quicklink
+      chrome.tabs.getSelected(null, function(tab) {
+        if (pageHasLink) {
+          chrome.storage.sync.remove(pageHasLink, function() {
+            saveLink(quickLink, tab.url, input, saved);
+          });
+        } else saveLink(quickLink, tab.url, input, saved);
+      });
     });
   });
 });
 
 
-function saveLink(quickLink, url) {
+function saveLink(quickLink, url, input, saved) {
   chrome.storage.sync.set({[quickLink]: url}, function(linkObj) {
-    var savedAlert = document.createElement('div');
-    savedAlert.classList.add('saved-alert');
-    savedAlert.innerText = 'Saved';
-    document.body.appendChild(savedAlert);
+    saved.classList.add('saved-animation');
+    setTimeout(function() {
+      input.value = '';
+      document.getElementById('currentPageLink').innerText = 'This page has a QuickLink: ' + quickLink;
+    }, 1000);
+    setTimeout(function() { saved.style.display = 'none'; }, 1600);
     // add new link to the ul
   });
 }
@@ -107,5 +110,14 @@ function createViewList(ul, viewDiv, pageHasLink) {
     }
     viewDiv.appendChild(ul);
   });
+}
+
+function createSavedAlert() {
+  var savedAlert = document.createElement('div');
+  savedAlert.classList.add('saved-alert');
+  savedAlert.setAttribute('id', 'saved');
+  savedAlert.innerText = 'Saved';
+  document.body.appendChild(savedAlert);
+  return savedAlert;
 }
 

@@ -33,6 +33,22 @@ button {
   top: 0;
   height: 150px;
   padding-top: 27%;
+  display: none;
+  opacity: 0;
+}
+
+.saved-animation {
+  display: block;
+  -webkit-animation-name: showHide;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-delay: 0.1s;
+}
+
+@-webkit-keyframes showHide {
+  0% {opacity: 0;}
+  25% {opacity: 1;}
+  75% {opacity: 1;}
+  100% {opacity: 0;}
 }
 
 .title {
