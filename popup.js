@@ -9,13 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
   var pageHasLink = false;
   var ul = document.createElement('ul');
 
+
   // Show if current page already has a quicklink
   chrome.tabs.getSelected(null, function(tab) {
     chrome.storage.sync.get(null, function(items) {
       for (var item in items) {
         if (items[item] === tab.url) {
           currentPageDiv.innerText = 'This page has a QuickLink: ' + item;
-          currentPageDiv.style.display = 'block';
+          // currentPageDiv.style.display = 'block';
+          currentPageDiv.style.visibility = 'visibile';
           pageHasLink = item;
           break;
         }
@@ -67,6 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function saveLink(quickLink, url) {
   chrome.storage.sync.set({[quickLink]: url}, function(linkObj) {
+    var savedAlert = document.createElement('div');
+    savedAlert.classList.add('saved-alert');
+    savedAlert.innerText = 'Saved';
+    document.body.appendChild(savedAlert);
     // add new link to the ul
   });
 }
@@ -84,7 +90,7 @@ function createViewList(ul, viewDiv, pageHasLink) {
       deleteOne.innerText = 'x';
       deleteOne.addEventListener('click', function(event) {
         chrome.storage.sync.remove(event.path[0].parentNode.getAttribute('id'), function() {
-          if (pageHasLink) document.getElementById('currentPageLink').style.display = 'none';
+          if (pageHasLink) document.getElementById('currentPageLink').style.visilibity = 'hidden';//display = 'none';
           ul.removeChild(event.path[0].parentNode);
         });
       });
