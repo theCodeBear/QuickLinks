@@ -108,6 +108,8 @@ function createViewList(ul, viewDiv, pageHasLink) {
       li.appendChild(deleteOne);
       ul.appendChild(li);
     }
+    // if current page is already linked, put at top of quicklink list
+    if (pageHasLink) ul.insertBefore(ul.querySelector('#'+pageHasLink), ul.firstChild);
     viewDiv.appendChild(ul);
   });
 }
