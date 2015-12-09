@@ -87,7 +87,7 @@ function createDeleteButtonForLinkListItem(quickLink, list) {
   deleteOne.innerText = 'x';
   deleteOne.addEventListener('click', function(event) {
     chrome.storage.sync.remove(event.path[0].parentNode.getAttribute('id'), function() {
-      if (quickLink) document.getElementById('currentPageLink').style.visilibity = 'hidden';//display = 'none';
+      if (quickLink) document.getElementById('currentPageLink').style.visibility = 'hidden';//display = 'none';
       list.removeChild(event.path[0].parentNode);
     });
   });
@@ -127,7 +127,7 @@ function createViewList(ul, viewDiv, pageHasLink) {
       deleteOne.innerText = 'x';
       deleteOne.addEventListener('click', function(event) {
         chrome.storage.sync.remove(event.path[0].parentNode.getAttribute('id'), function() {
-          if (pageHasLink) document.getElementById('currentPageLink').style.visilibity = 'hidden';//display = 'none';
+          if (pageHasLink) document.getElementById('currentPageLink').style.visibility = 'hidden';//display = 'none';
           ul.removeChild(event.path[0].parentNode);
         });
       });
