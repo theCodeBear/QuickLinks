@@ -10,7 +10,7 @@ body {
 
 input {
   display: block;
-  width: 100%;
+  width: 98%;
   text-align: center;
   font-size: 1.3em;
   line-height: 2em;
@@ -103,7 +103,7 @@ button {
 }
 
 .list-container {
-  max-height: 400px;
+  max-height: 357px;
   overflow-y: scroll;
 }
 
@@ -134,6 +134,10 @@ li button:hover {
 
 li:not(button):hover {
   background-color: gray;
+}
+
+li:not(button):hover button {
+  color: white;
 }
 
 .link {
