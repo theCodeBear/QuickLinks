@@ -1,0 +1,109 @@
+/* Stylesheet for QuickLinks Chrome Extension */
+
+
+body {
+  width: 300px !important;
+  height: 200px;
+  margin: 0 !important;
+}
+
+input {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 1.3em;
+  line-height: 2em;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+button {
+  outline: none;
+}
+
+.title {
+  text-align: center;
+  margin: 0 0 !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  background-color: dimgray;
+  color: whitesmoke;
+  font-weight: 100;
+  font-size: 32px;
+}
+
+.display-none {
+  display: none;
+}
+
+.current-page {
+  text-align: center;
+  font-weight: 400;
+  margin: 4px;
+  color: blue;
+}
+
+.button {
+  width: 100%;
+  font-size: 2em;
+  background-color: transparent;
+  border-size: 1px;
+  border-style: solid;
+  padding: 7px;
+  color: whitesmoke;
+}
+
+.button-save {
+  border-color: green;
+  background-color: green;
+}
+
+.button-save:active {
+  background-color: darkgreen;
+}
+
+.button-view {
+  border-color: #333;
+  background-color: #333;
+}
+
+.button-view:active {
+  background-color: #111;
+}
+
+li {
+  padding: 5px;
+  font-size: 1.2em;
+  border: 1px solid #BBB;
+}
+
+.list-item-div {
+  display: inline-block;
+  width: 90%;
+}
+
+li button {
+  background-color: transparent;
+  color: red;
+  float: right;
+  border: none;
+  font-size: 2em;
+  width: 10%;
+}
+
+li button:hover {
+  background-color: red;
+  color: white;
+}
+
+.link {
+  font-weight: bold;
+}
+
+.url {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: inline-block;
+}

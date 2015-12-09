@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
       for (var item in items) {
         if (items[item] === tab.url) {
           currentPageDiv.innerText = 'This page has a QuickLink: ' + item;
-          currentPageDiv.style.display = 'initial';
+          currentPageDiv.style.display = 'block';
           pageHasLink = item;
           break;
         }
@@ -88,7 +88,10 @@ function createViewList(ul, viewDiv, pageHasLink) {
           ul.removeChild(event.path[0].parentNode);
         });
       });
-      text = document.createTextNode(item + ': ' + items[item] + ' ');
+      text = document.createElement('div');
+      text.classList.add('list-item-div');
+      text.innerHTML = '<span class="link">' + item + '</span><br><span class="url">' + items[item] + '</span>';
+      // text = document.createTextNode(item + ': ' + items[item] + ' ');
       li.appendChild(text);
       li.appendChild(deleteOne);
       ul.appendChild(li);

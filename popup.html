@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>QuickLinks</title>
+  <title>Quick Links</title>
+  <link rel='stylesheet' href='style.css'>
 </head>
 <body>
-  <h1>QuickLinks</h1>
-  <h3 id='currentPageLink' style='display:none;'></h3>
-  <input type='text' id='codeInput' placeholder='QuickLink for this page'>
-  <button id='save'>Save</button>
-  <button id='view'>View All</button>
+  <header class='title'>Quick Links</header>
+  <div id='currentPageLink' class='display-none current-page'></div>
+  <input type='text' id='codeInput' placeholder='Save QuickLink for this page'>
+  <button class='button button-save' id='save'>Save</button>
+  <button class='button button-view' id='view'>View All</button>
   <div id='show'></div>
+
   <script src='popup.js'></script>
 </body>
 </html>
