@@ -110,12 +110,7 @@ function createTextForLinkListItem(quickLink, url) {
 function saveLink(quickLink, url, input, saved) {
   chrome.storage.sync.set({[quickLink]: url}, function(linkObj) {
     saved.classList.add('saved-animation');
-    setTimeout(function() {
-      input.value = '';
-      document.getElementById('currentPageLink').innerText = 'This page has a QuickLink: ' + quickLink;
-    }, 1000);
-    setTimeout(function() { saved.style.display = 'none'; }, 1600);
-    // add new link to the ul
+    setTimeout(function() { window.close(); }, 1100);
   });
 }
 

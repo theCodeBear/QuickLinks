@@ -39,16 +39,15 @@ button {
 
 .saved-animation {
   display: block;
-  -webkit-animation-name: showHide;
-  -webkit-animation-duration: 1.5s;
+  -webkit-animation-name: show;
+  -webkit-animation-duration: 1s;
   -webkit-animation-delay: 0.1s;
 }
 
-@-webkit-keyframes showHide {
+@-webkit-keyframes show {
   0% {opacity: 0;}
   25% {opacity: 1;}
-  75% {opacity: 1;}
-  100% {opacity: 0;}
+  100% {opacity: 1;}
 }
 
 .title {
