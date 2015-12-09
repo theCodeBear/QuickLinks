@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Save Button
-  saveButton.addEventListener('click', function() {
+  document.getElementsByTagName('form')[0].addEventListener('submit', function(event) {
+    event.preventDefault();
     var quickLink = input.value.trim();
     if (!quickLink.length) {
       input.style.borderColor = 'red';

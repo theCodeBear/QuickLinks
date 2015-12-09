@@ -8,8 +8,10 @@
 <body>
   <header class='title'>Quick Links</header>
   <div id='currentPageLink' class='display-none current-page'></div>
-  <input type='text' id='codeInput' placeholder='Save QuickLink for this page'>
-  <button class='button button-save' id='save'>Save</button>
+  <form>
+    <input type='text' id='codeInput' placeholder='Save QuickLink for this page' autocomplete='off'>
+    <button type='submit' class='button button-save' id='save'>Save</button>
+  </form>
   <button class='button button-view' id='view'>View All</button>
   <div id='show' class='list-container'></div>
 
