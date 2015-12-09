@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var viewButton = document.getElementById('view');
   var viewDiv = document.getElementById('show');
   var currentPageDiv = document.getElementById('currentPageLink');
-  var pageHasLink = false;
+  var pageHasLink = { link: false };
   var ul = document.createElement('ul');
   var savedAlert = createSavedAlert();
 
@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
           currentPageDiv.innerText = 'This page has a QuickLink: ' + item;
           // currentPageDiv.style.display = 'block';
           currentPageDiv.style.visibility = 'visibile';
-          pageHasLink = item;
+          pageHasLink.link = item;
           break;
         }
       }
-      // put this line here so that it comes after:  pageHasLink = item
+      // put this line here so that it comes after:  pageHasLink.link = item
       createViewList(ul, viewDiv, pageHasLink);
     });
   });
@@ -59,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // save this quicklink
       chrome.tabs.getSelected(null, function(tab) {
         // if editing existing page link
-        if (pageHasLink) {
-          chrome.storage.sync.remove(pageHasLink, function() {
+        if (pageHasLink.link) {
+          chrome.storage.sync.remove(pageHasLink.link, function() {
             saveLink(quickLink, tab.url, input, saved);
             ul.removeChild(ul.firstChild);
             var li = createListItemForLinkList(quickLink, ul, tab.url);
@@ -128,8 +128,9 @@ function createViewList(ul, viewDiv, pageHasLink) {
       deleteOne.innerText = 'x';
       deleteOne.addEventListener('click', function(event) {
         chrome.storage.sync.remove(event.path[0].parentNode.getAttribute('id'), function() {
-          if (pageHasLink) document.getElementById('currentPageLink').style.visibility = 'hidden';//display = 'none';
+          if (pageHasLink.link) document.getElementById('currentPageLink').style.visibility = 'hidden';//display = 'none';
           ul.removeChild(event.path[0].parentNode);
+          pageHasLink.link = false;
         });
       });
       text = document.createElement('div');
@@ -144,7 +145,7 @@ function createViewList(ul, viewDiv, pageHasLink) {
       ul.appendChild(li);
     }
     // if current page is already linked, put at top of quicklink list
-    if (pageHasLink) ul.insertBefore(ul.querySelector('#'+pageHasLink), ul.firstChild);
+    if (pageHasLink.link) ul.insertBefore(ul.querySelector('#'+pageHasLink.link), ul.firstChild);
     viewDiv.appendChild(ul);
   });
 }
