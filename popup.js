@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
   var currentPageDiv = document.getElementById('currentPageLink');
   var pageHasLink = { link: false };
   var ul = document.createElement('ul');
-  var savedAlert = createSavedAlert();
+  var saved = createAlert('green', 'Saved');
+  var noInputAlert = createAlert('red', 'No Input');
+  var alreadyExistsAlert = createAlert('red', 'Already Exists');
 
   // Show if current page already has a quicklink
   chrome.tabs.getSelected(null, function(tab) {
@@ -35,24 +37,28 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
 
-  // Input gains focus, get rid of red border if save was hit when input empty
-  input.addEventListener('focus', function() {
-    input.style.borderColor = 'initial';
-  });
-
   // Save Button
   document.getElementsByTagName('form')[0].addEventListener('submit', function(event) {
     event.preventDefault();
     var quickLink = input.value.trim();
+    // if no input
     if (!quickLink.length) {
-      input.style.borderColor = 'red';
+      noInputAlert.classList.add('bad-input-animation');
+      setTimeout(function() {
+        noInputAlert.classList.add('display-none');
+        noInputAlert.classList.remove('bad-input-animation');
+      }, 1600);
       return;
     }
     // make sure this quicklink doesn't already exist
     chrome.storage.sync.get(null, function(items) {
       for (var item in items) {
         if (input.value === item) {
-          input.style.borderColor = 'red';
+          alreadyExistsAlert.classList.add('bad-input-animation');
+          setTimeout(function() {
+            alreadyExistsAlert.classList.add('display-none');
+            alreadyExistsAlert.classList.remove('bad-input-animation');
+          }, 1600);
           return;
         }
       }
@@ -150,12 +156,12 @@ function createViewList(ul, viewDiv, pageHasLink) {
   });
 }
 
-function createSavedAlert() {
-  var savedAlert = document.createElement('div');
-  savedAlert.classList.add('saved-alert');
-  savedAlert.setAttribute('id', 'saved');
-  savedAlert.innerText = 'Saved';
-  document.body.appendChild(savedAlert);
-  return savedAlert;
+function createAlert(color, text) {
+  var alert = document.createElement('div');
+  alert.classList.add('alert');
+  alert.style.backgroundColor = color;
+  alert.innerText = text;
+  document.body.appendChild(alert);
+  return alert;
 }
 

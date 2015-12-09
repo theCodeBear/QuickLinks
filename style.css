@@ -22,8 +22,7 @@ button {
   outline: none;
 }
 
-.saved-alert {
-  background-color: green;
+.alert {
   color: white;
   font-size: 4em;
   font-weight: 100;
@@ -35,6 +34,20 @@ button {
   padding-top: 27%;
   display: none;
   opacity: 0;
+}
+
+.bad-input-animation {
+  display: block !important;
+  -webkit-animation-name: showHide;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-delay: 0.1s;
+}
+
+@-webkit-keyframes showHide {
+  0% {opacity: 0;}
+  25% {opacity: 1;}
+  75% {opacity: 1;}
+  100% {opacity: 0;}
 }
 
 .saved-animation {
@@ -61,16 +74,19 @@ button {
   font-size: 32px;
 }
 
-.display-none {
-  /* display: none; */
+.visibility-hidden {
   visibility: 'hidden';
-  height: 14px;
+}
+
+.display-none {
+  display: none;
 }
 
 .current-page {
   text-align: center;
   font-weight: 400;
   margin: 4px;
+  height: 14px;
   color: blue;
 }
 
