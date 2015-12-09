@@ -57,15 +57,54 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       // save this quicklink
       chrome.tabs.getSelected(null, function(tab) {
+        // if editing existing page link
         if (pageHasLink) {
           chrome.storage.sync.remove(pageHasLink, function() {
             saveLink(quickLink, tab.url, input, saved);
+            ul.removeChild(ul.firstChild);
+            var li = createListItemForLinkList(quickLink, ul, tab.url);
+            ul.insertBefore(li, ul.firstChild);
           });
         } else saveLink(quickLink, tab.url, input, saved);
       });
     });
   });
 });
+
+function createListItemForLinkList(quickLink, list, url) {
+  var li = document.createElement('li');
+  console.log('link', quickLink);
+  li.setAttribute('id', quickLink);
+  var deleteButton = createDeleteButtonForLinkListItem(quickLink, list);
+  var text = createTextForLinkListItem(quickLink, url);
+  li.appendChild(text);
+  li.appendChild(deleteButton);
+  return li;
+}
+
+function createDeleteButtonForLinkListItem(quickLink, list) {
+  var deleteOne = document.createElement('button');
+  deleteOne.innerText = 'x';
+  deleteOne.addEventListener('click', function(event) {
+    chrome.storage.sync.remove(event.path[0].parentNode.getAttribute('id'), function() {
+      if (quickLink) document.getElementById('currentPageLink').style.visilibity = 'hidden';//display = 'none';
+      list.removeChild(event.path[0].parentNode);
+    });
+  });
+  return deleteOne;
+}
+
+// i need to quicklink key, i need the url
+function createTextForLinkListItem(quickLink, url) {
+  text = document.createElement('div');
+  text.setAttribute('href', url);
+  text.addEventListener('click', function(event) {
+    chrome.tabs.update({'url': event.path[1].getAttribute('href')});
+  });
+  text.classList.add('list-item-div');
+  text.innerHTML = '<span class="link">' + quickLink + '</span><br><span class="url">' + url + '</span>';
+  return text;
+}
 
 
 function saveLink(quickLink, url, input, saved) {
