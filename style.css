@@ -96,8 +96,15 @@ li button:hover {
   color: white;
 }
 
+li:not(button):hover {
+  background-color: gray;
+}
+
 .link {
   font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
 }
 
 .url {
@@ -106,4 +113,5 @@ li button:hover {
   text-overflow: ellipsis;
   width: 100%;
   display: inline-block;
+  cursor: pointer;
 }

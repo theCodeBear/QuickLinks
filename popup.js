@@ -89,9 +89,12 @@ function createViewList(ul, viewDiv, pageHasLink) {
         });
       });
       text = document.createElement('div');
+      text.setAttribute('href', items[item]);
+      text.addEventListener('click', function(event) {
+        chrome.tabs.update({'url': event.path[1].getAttribute('href')});
+      });
       text.classList.add('list-item-div');
       text.innerHTML = '<span class="link">' + item + '</span><br><span class="url">' + items[item] + '</span>';
-      // text = document.createTextNode(item + ': ' + items[item] + ' ');
       li.appendChild(text);
       li.appendChild(deleteOne);
       ul.appendChild(li);
