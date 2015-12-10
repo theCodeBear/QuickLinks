@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
           chrome.storage.sync.remove(pageHasLink.link, function() {
             saveLink(quickLink, tab.url, input, saved);
             ul.removeChild(ul.firstChild);
-            var li = createListItemForLinkList(quickLink, ul, tab.url);
+            var li = createListItemForLinkList(quickLink, ul, tab.url, pageHasLink);
             ul.insertBefore(li, ul.firstChild);
           });
         } else saveLink(quickLink, tab.url, input, saved);
@@ -78,24 +78,25 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-function createListItemForLinkList(quickLink, list, url) {
+function createListItemForLinkList(quickLink, list, url, pageHasLink) {
   var li = document.createElement('li');
   console.log('link', quickLink);
   li.setAttribute('id', quickLink);
-  var deleteButton = createDeleteButtonForLinkListItem(quickLink, list);
+  var deleteButton = createDeleteButtonForLinkListItem(quickLink, list, pageHasLink);
   var text = createTextForLinkListItem(quickLink, url);
   li.appendChild(text);
   li.appendChild(deleteButton);
   return li;
 }
 
-function createDeleteButtonForLinkListItem(quickLink, list) {
+function createDeleteButtonForLinkListItem(quickLink, list, pageHasLink) {
   var deleteOne = document.createElement('button');
   deleteOne.innerText = 'x';
   deleteOne.addEventListener('click', function(event) {
     chrome.storage.sync.remove(event.path[0].parentNode.getAttribute('id'), function() {
       if (quickLink) document.getElementById('currentPageLink').style.visibility = 'hidden';//display = 'none';
       list.removeChild(event.path[0].parentNode);
+      pageHasLink.link = false;
     });
   });
   return deleteOne;
@@ -122,32 +123,13 @@ function saveLink(quickLink, url, input, saved) {
 }
 
 function createViewList(ul, viewDiv, pageHasLink) {
-  var li, deleteOne, text;
+  var li;
   ul.style.display = 'none';
   ul.style.listStyleType = 'none';
   ul.style.paddingLeft = 0;
   chrome.storage.sync.get(null, function(items) {
     for (var item in items) {
-      li = document.createElement('li');
-      li.setAttribute('id', item);
-      deleteOne = document.createElement('button');
-      deleteOne.innerText = 'x';
-      deleteOne.addEventListener('click', function(event) {
-        chrome.storage.sync.remove(event.path[0].parentNode.getAttribute('id'), function() {
-          if (pageHasLink.link) document.getElementById('currentPageLink').style.visibility = 'hidden';//display = 'none';
-          ul.removeChild(event.path[0].parentNode);
-          pageHasLink.link = false;
-        });
-      });
-      text = document.createElement('div');
-      text.setAttribute('href', items[item]);
-      text.addEventListener('click', function(event) {
-        chrome.tabs.update({'url': event.path[1].getAttribute('href')});
-      });
-      text.classList.add('list-item-div');
-      text.innerHTML = '<span class="link">' + item + '</span><br><span class="url">' + items[item] + '</span>';
-      li.appendChild(text);
-      li.appendChild(deleteOne);
+      li = createListItemForLinkList(item, ul, items[item], pageHasLink);
       ul.appendChild(li);
     }
     // if current page is already linked, put at top of quicklink list
