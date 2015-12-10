@@ -1,5 +1,3 @@
-// on save need to add new quicklink to top of view list
-
 document.addEventListener('DOMContentLoaded', function() {
   var saveButton = document.getElementById('save');
   var input = document.getElementById('codeInput');
@@ -19,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (items[item] === tab.url) {
           input.setAttribute('placeholder', 'Edit QuickLink for this page');
           currentPageDiv.innerText = 'This page has a QuickLink: ' + item;
-          // currentPageDiv.style.display = 'block';
           currentPageDiv.style.visibility = 'visibile';
           pageHasLink.link = item;
           break;
@@ -80,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function createListItemForLinkList(quickLink, list, url, pageHasLink) {
   var li = document.createElement('li');
-  console.log('link', quickLink);
   li.setAttribute('id', quickLink);
   var deleteButton = createDeleteButtonForLinkListItem(quickLink, list, pageHasLink);
   var text = createTextForLinkListItem(quickLink, url);
@@ -94,7 +90,7 @@ function createDeleteButtonForLinkListItem(quickLink, list, pageHasLink) {
   deleteOne.innerText = 'x';
   deleteOne.addEventListener('click', function(event) {
     chrome.storage.sync.remove(event.path[0].parentNode.getAttribute('id'), function() {
-      if (quickLink) document.getElementById('currentPageLink').style.visibility = 'hidden';//display = 'none';
+      if (quickLink) document.getElementById('currentPageLink').style.visibility = 'hidden';
       list.removeChild(event.path[0].parentNode);
       pageHasLink.link = false;
     });
@@ -102,7 +98,6 @@ function createDeleteButtonForLinkListItem(quickLink, list, pageHasLink) {
   return deleteOne;
 }
 
-// i need to quicklink key, i need the url
 function createTextForLinkListItem(quickLink, url) {
   text = document.createElement('div');
   text.setAttribute('href', url);
